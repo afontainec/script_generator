@@ -24,9 +24,11 @@ const makeAPScripts = async (dir_path, values) => {
   for (let i = 0; i < values.numOfAps; i++) {
     const index = i + 1;
     const AP_VALUES = {};
-    AP_VALUES['MAC-AP'] = AP_VALUES[`MAC-AP${index}`];
-    AP_VALUES['IP-AP'] = AP_VALUES[`IP-AP${index}`];
+    AP_VALUES['MAC-AP'] = `$MAC-AP${index}$`;
+    AP_VALUES['IP-AP'] = `$IP-AP${index}$`;
     const string = await Compiler.compileFile(template, AP_VALUES);
+    console.log('----------------------------------------------');
+    console.log(string);
     const scriptPath = path.join(rawDir, `AP_${index}.rsc`);
     await fs.writeFileSync(scriptPath, string);
   }
