@@ -1,10 +1,8 @@
 
-
 const fs = require('fs-extra');
 const Data = require('./data');
 const Compiler = require('./compiler');
 
-const path = require('path');
 
 const generateDirectory = async (values) => {
   const dir_name = values['PLACE-NAME'].toUpperCase();
