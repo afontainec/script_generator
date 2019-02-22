@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="language" content="es" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="OneGorilla" />
+
+  <meta http-equiv="refresh" content="0; url=https://accionetdev.herokuapp.com/welcome/places/$PLACE-ID$/render?is_initial=true&person=T-$(mac-esc)&burl=$(link-login-only)" />
+
+
+  <title>Red WiFi Accionet</title>
+
+</head>
+
+<script>
+  function redirect() {
+    setTimeout(function () {
+      window.location = 'https://accionetdev.herokuapp.com/welcome/places/$PLACE-ID$/render?is_initial=true&person=T-$(mac-esc)&burl=$(link-login-only)';
+    }, 3000);
+    setTimeout(function () {
+      window.location.replace("https://accionetdev.herokuapp.com/welcome/places/$PLACE-ID$/render?is_initial=true&person=T-$(mac-esc)&burl=$(link-login-only)");
+    }, 6000);
+    setTimeout(function () {
+      window.location.assign("https://accionetdev.herokuapp.com/welcome/places/$PLACE-ID$/render?is_initial=true&person=T-$(mac-esc)&burl=$(link-login-only)");
+    }, 9000);
+    setTimeout(function () {
+      window.location.href = "https://accionetdev.herokuapp.com/welcome/places/$PLACE-ID$/render?is_initial=true&person=T-$(mac-esc)&burl=$(link-login-only)";
+    }, 12000);
+  }
+</script>
+<body onload="redirect()">
+</body>
+</html>
