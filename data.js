@@ -73,7 +73,7 @@ const getAPs = async (values) => {
   const n = await userInput('Cuantos dispositivos de red desea conectar al router? (AP, switch, controladores, etc)');
   values.numOfAps = parseInt(n, 10);
   for (let i = 0; i < values.numOfAps; i++) {
-    await getAP(i, values);
+    await getAP(values, i);
   }
 };
 
@@ -83,6 +83,7 @@ const routerAP = async (values) => {
 };
 
 const getAP = async (values, i) => {
+  i++;
   const macKey = `MAC-AP${i}`;
   const ipKey = `IP-AP${i}`;
   values[macKey] = await userInput(`  Ingrese dirección mac del dispotivo num ${i}:`);
@@ -98,7 +99,7 @@ const createPlace = () => {
   return 1;
 };
 
-const responses = ['testing', 'n', '0', 'y', 'passphrase', 'vpnuser', 'vpnpassword', 'n', 'n', 2, 'AA:AA:AA:AA:AA:AA', 'AA:AA:AA:AA:AA:AB'];
+const responses = ['testing', 'y', '0', 'y', 'passphrase', 'vpnuser', 'vpnpassword', 'n', 'n', 2, 'AA:AA:AA:AA:AA:AA', 'AA:AA:AA:AA:AA:AB'];
 let i = 0;
 const userInput = async (question) => {
   console.log(question);
