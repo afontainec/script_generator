@@ -77,7 +77,7 @@ const createPlace = () => {
   return 1;
 };
 
-const responses = ['testing', 'y', '0', 'y', 'passphrase', 'vpnuser', 'vpnpassword', 'n', 'n', 2, 'AA:AA:AA:AA:AA:AA', 'AA:AA:AA:AA:AA:AB'];
+const responses = ['testing', 'y', '0', 'y', 'passphrase', 'vpnuser', 'vpnpassword', 'n', 'y', 'FREE WIFI', 2, 'AA:AA:AA:AA:AA:AA', 'AA:AA:AA:AA:AA:AB'];
 let i = 0;
 const userInput = async (question) => {
   console.log(question);
