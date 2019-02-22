@@ -1,42 +1,22 @@
 
 
 const fs = require('fs-extra');
-let values = require('./data').values;
+const Data = require('./data');
+const Compiler = require('./compiler');
 
+const path = require('path');
 
-const generateDirectory = (values) => {
+const generateDirectory = async (values) => {
   const dir_name = values['PLACE-NAME'].toUpperCase();
-  return fs.copySync('./MASTER', `./COPIES/${dir_name}`);
+  const dir_path = `./COPIES/${dir_name}`;
+  await fs.copySync('./MASTER', dir_path);
+  return dir_path;
 };
 
 const start = async () => {
-  values = getValues();
-  const path = await generateDirectory(values);
-  await compileDirectory(path, values);
-};
-
-const compileDirectory = async () => {
-  return true;
-};
-
-
-const getValues = () => {
-  return {
-    'PLACE-NAME': 'test',
-    'PLACE-ID': 1,
-    SSID: 'free wifi',
-    'VPN-PASSPHRASE': 'asdfasdf',
-    'VPN-USER': 'test',
-    'VPN-PASSWORD': 'test',
-    'PUBLIC-IP': '8.8.8.8',
-    'ISP-GATEWAY': '8.8.8.8',
-    'ISP1-GATEWAY': '8.8.8.8',
-    'ISP2-GATEWAY': '8.8.8.8',
-    'ISP1-ADDRESS': '8.8.8.8',
-    'ISP2-ADDRESS': '8.8.8.8',
-    'MAC-AP1': 'AA:AA:AA:AA:AA:AA',
-    'MAC-AP2': 'AA:AA:AA:AA:AA:AB',
-  };
+  const values = Data.get();
+  const dir_path = await generateDirectory(values);
+  await Compiler.run(dir_path, values);
 };
 
 
