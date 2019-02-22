@@ -9,11 +9,7 @@ exports.run = async (dir_path, values) => {
     files[i] = path.join(rawDir, files[i]);
     compilers.push(compileFile(files[i], values));
   }
-  console.log('-------------------------------------------');
-  console.log(dir_path);
   const results = await Promise.all(compilers);
-  console.log(files[1]);
-  console.log(results[1]);
   await writeCompiledFiles(files, results);
 };
 

@@ -27,8 +27,6 @@ const makeAPScripts = async (dir_path, values) => {
     AP_VALUES['MAC-AP'] = `$MAC-AP${index}$`;
     AP_VALUES['IP-AP'] = `$IP-AP${index}$`;
     const string = await Compiler.compileFile(template, AP_VALUES);
-    console.log('----------------------------------------------');
-    console.log(string);
     const scriptPath = path.join(rawDir, `AP_${index}.rsc`);
     await fs.writeFileSync(scriptPath, string);
   }
@@ -42,6 +40,7 @@ const makeMasterScript = async (dir_path, values) => {
     commands += `import "raw/AP_${index}.rsc"`;
     commands += '\n';
   }
+  if (values.useRouterAP) commands += 'import "raw/AP_ROUTER.rsc"';
   await fs.writeFileSync(scriptPath, commands);
 };
 

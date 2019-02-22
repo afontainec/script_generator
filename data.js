@@ -1,22 +1,3 @@
-// exports.get = () => {
-//   return {
-//     'PLACE-NAME': 'test',
-//     'PLACE-ID': 1,
-//     SSID: 'free wifi',
-//     'VPN-PASSPHRASE': 'asdfasdf',
-//     'VPN-USER': 'test',
-//     'VPN-PASSWORD': 'test',
-//     'PUBLIC-IP': '8.8.8.8',
-//     'ISP-GATEWAY': '8.8.8.8',
-//     'ISP1-GATEWAY': '8.8.8.8',
-//     'ISP2-GATEWAY': '8.8.8.8',
-//     'ISP1-ADDRESS': '8.8.8.8',
-//     'ISP2-ADDRESS': '8.8.8.8',
-//     'MAC-AP1': 'AA:AA:AA:AA:AA:AA',
-//     'MAC-AP2': 'AA:AA:AA:AA:AA:AB',
-//   };
-// };
-
 const AP_PREFIX = '10.5.49.';
 const AP_NUM = 100;
 
@@ -27,9 +8,6 @@ exports.get = async () => {
   await vpn(values);
   await getInternetConexion(values);
   await getAPs(values);
-  console.log('--------------------');
-  console.log(values);
-  console.log('--------------------');
   return values;
 };
 
@@ -79,7 +57,7 @@ const getAPs = async (values) => {
 
 const routerAP = async (values) => {
   values.SSID = await userInput('  Ingrese Nombre de la señal de wifi(SSID):');
-  values.hasRouterAp = true;
+  values.useRouterAP = true;
 };
 
 const getAP = async (values, i) => {
