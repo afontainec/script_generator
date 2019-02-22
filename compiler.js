@@ -47,3 +47,5 @@ const compileFile = function (filePath, values) {
     });
   });
 };
+
+exports.compileFile = compileFile;

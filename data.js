@@ -105,6 +105,6 @@ const userInput = async (question) => {
   console.log(question);
   const ans = responses[i];
   i++;
-  console.log('user:', ans);
+  console.log('    user:', ans);
   return ans;
 };
