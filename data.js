@@ -1,5 +1,6 @@
 const AP_PREFIX = '10.5.49.';
 const AP_NUM = 100;
+const requestify = require('requestify');
 
 exports.get = async () => {
   const values = {};
@@ -13,7 +14,9 @@ exports.get = async () => {
 
 const getName = async(values) => {
   const answer = await userInput('Nombre de la red:');
-  values['PLACE-NAME'] = answer;
+  values.name = answer;
+  const search = new RegExp(' ', 'g');
+  values['PLACE-NAME'] = answer.replace(search, '_');
 };
 
 const getID = async(values) => {
@@ -73,11 +76,17 @@ function getAP_IP(i) {
 }
 
 
-const createPlace = () => {
+const createPlace = async(values) => {
+  const data = {};
+  data.place = {};
+  data.place.name = values.name;
+  data.place.location = values.location;
+  // const response = await requestify.post('http://localhost:3000/places/new', data);
+  // return response.id;
   return 1;
 };
 
-const responses = ['testing', 'y', '0', 'y', 'passphrase', 'vpnuser', 'vpnpassword', 'n', 'y', 'FREE WIFI', 2, 'AA:AA:AA:AA:AA:AA', 'AA:AA:AA:AA:AA:AB'];
+const responses = ['testing hola', 'n', 'y', 'passphrase', 'vpnuser', 'vpnpassword', 'n', 'y', 'FREE WIFI', 2, 'AA:AA:AA:AA:AA:AA', 'AA:AA:AA:AA:AA:AB'];
 let i = 0;
 const userInput = async (question) => {
   console.log(question);

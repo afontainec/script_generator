@@ -10,4 +10,6 @@ const start = async () => {
 };
 
 
-start();
+start().then().catch((err) => {
+  console.log(err);
+});
