@@ -1,6 +1,6 @@
 import "raw/certificates.rsc"
 import "raw/configuraciones_basicas.rsc"
-import "raw/conexion_internet.rsc"
+#conection
 import "raw/red_administracion.rsc"
 import "raw/bridge_router_5_puertos.rsc"
 import "raw/firewall.rsc"

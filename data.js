@@ -81,6 +81,7 @@ const getInternetConexion = async (values) => {
   const params = promptParams('conexion', 'boolean');
   const answer = await userInput('La conexión a internet se dará por Enlace dedicado?  ingrese y si esta cualquier otra tecla si esque no', params);
   if (answer === 'y') return dedicatedInternet(values);
+  values.conection = 'default';
 };
 
 const dedicatedInternet = async (values) => {
@@ -88,6 +89,7 @@ const dedicatedInternet = async (values) => {
   values['PUBLIC-IP'] = await userInput('  Ingrese IP pública:', params);
   params = promptParams('gateway', 'IP');
   values['ISP-GATEWAY'] = await userInput('  Ingrese Puerta de Enlace de la IP pública:', params);
+  values.conection = 'dedicated_internet';
 };
 
 const getAPs = async (values) => {
