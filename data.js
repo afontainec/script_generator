@@ -48,7 +48,7 @@ function promptParams(name, type, validator, warning) {
 }
 
 const getName = async (values) => {
-  const params = promptParams('nombre', 'string', /^[a-zA-Z0-9\s]+$/, 'Data invalida. Solo puede contener letras, números y espacios');
+  const params = promptParams('nombre', 'string', /^[\w\s]+$/, 'Data invalida. Solo puede contener letras, números y espacios');
   const answer = await userInput('Nombre de la red:', params);
   values.name = answer;
   const search = new RegExp(' ', 'g');
@@ -76,9 +76,9 @@ const vpn = async (values) => {
   values.includeVPN = true;
   params = promptParams('usuario', 'string', /^[a-zA-Z0-9]+$/, 'Debe ser alfanumérico');
   values['VPN-USER'] = await userInput('  Ingrese nombre de usuario:', params);
-  params = promptParams('passphrase', 'password');
+  params = promptParams('passphrase', 'password', /^[a-zA-Z0-9]+$/, 'Debe ser alfanumérico y sin caracteres especiales');
   values['VPN-PASSPHRASE'] = await userInput('  Ingrese passphrase:', params);
-  params = promptParams('contrasena', 'password');
+  params = promptParams('contrasena', 'password', /^[a-zA-Z0-9]+$/, 'Debe ser alfanumérico y sin caracteres especiales');
   values['VPN-PASSWORD'] = await userInput('  Ingrese contrasena:', params);
 };
 
@@ -110,7 +110,7 @@ const getAPs = async (values) => {
 };
 
 const routerAP = async (values) => {
-  const params = promptParams('SSID', 'string', /^[a-zA-Z0-9\s]+$/, 'Data invalida. Solo puede contener letras, números y espacios');
+  const params = promptParams('SSID', 'string');
   values.SSID = await userInput('  Ingrese Nombre de la señal de wifi(SSID):', params);
   values.useRouterAP = true;
 };
@@ -151,7 +151,6 @@ const createPlace = async (values) => {
 
 function toBoolean(input) {
   const trueValues = ['s', 'S', 'si', 'SI', 'y', 'Y', 'YES', 'yes'];
-  console.log(input, trueValues.indexOf(input) > -1);
   return trueValues.indexOf(input) > -1;
 }
 
