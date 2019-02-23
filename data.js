@@ -82,7 +82,7 @@ const dedicatedInternet = async (values) => {
 const getAPs = async (values) => {
   let params = promptParams('wlan');
   const answer = await userInput('Desea usar el AP del mismo router?', params);
-  if (answer === 'y') routerAP(values);
+  if (answer === 'y') await routerAP(values);
   params = promptParams('cantidad');
   const n = await userInput('Cuantos dispositivos de red desea conectar al router? (AP, switch, controladores, etc)', params);
   values.numOfAps = parseInt(n, 10);
