@@ -30,20 +30,24 @@ function promptParams(name, type, validator, warning) {
     p.warning = 'Input must be a number';
     break;
   case 'boolean':
+    p.validator = /^(si|no|s|n|S|N|SI|NO|YES|yes|y)$/;
+    p.warning = 'valor invalido, debe ser si o no';
       // TODO: que sea si o no
     break;
   case 'IP':
-        // TODO: que sea si o no
+    p.validator = /^\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b$/;
+    p.warning = 'Valor ingresado no corresponde a una IP.';
     break;
   case 'macaddress':
-      // TODO: que sea si o no
+    p.validator = /^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$/;
+    p.warning = 'valor ingresado no es una macaddress valida, debe ser el formato AA:AA:AA:AA:AA:AA';
     break;
   default:
   }
   return p;
 }
 
-const getName = async(values) => {
+const getName = async (values) => {
   const params = promptParams('nombre', 'string', /^[a-zA-Z0-9\s]+$/, 'Data invalida. Solo puede contener letras, números y espacios');
   const answer = await userInput('Nombre de la red:', params);
   values.name = answer;
@@ -51,11 +55,11 @@ const getName = async(values) => {
   values['PLACE-NAME'] = answer.replace(search, '_');
 };
 
-const getID = async(values) => {
+const getID = async (values) => {
   let params = promptParams('registrado?', 'boolean');
-  const answer = await userInput('Red ya esta registrada en www.accionet.net? ingrese y si esta cualquier otra tecla si esque no', params);
+  const answer = await userInput('Red ya esta registrada en www.accionet.net? (ingrese si o no)', params);
   let id;
-  if (answer === 'y') {
+  if (toBoolean(answer)) {
     params = promptParams('ID?', 'integer');
     id = await userInput('Ingrese ID de la red en www.accionet.net', params);
   } else {
@@ -67,8 +71,8 @@ const getID = async(values) => {
 const vpn = async (values) => {
   let params = promptParams('vpn', 'boolean');
   promptParams.name = 'vpn?';
-  const answer = await userInput('Configurar VPN para esta red? ingrese y si esta cualquier otra tecla si esque no', params);
-  if (answer !== 'y') return;
+  const answer = await userInput('Configurar VPN para esta red? (ingrese si o no)', params);
+  if (!toBoolean(answer)) return;
   values.includeVPN = true;
   params = promptParams('usuario', 'string', /^[a-zA-Z0-9]+$/, 'Debe ser alfanumérico');
   values['VPN-USER'] = await userInput('  Ingrese nombre de usuario:', params);
@@ -80,8 +84,8 @@ const vpn = async (values) => {
 
 const getInternetConexion = async (values) => {
   const params = promptParams('conexion', 'boolean');
-  const answer = await userInput('La conexión a internet se dará por Enlace dedicado?  ingrese y si esta cualquier otra tecla si esque no', params);
-  if (answer === 'y') return dedicatedInternet(values);
+  const answer = await userInput('La conexión a internet se dará por Enlace dedicado?  (ingrese si o no)', params);
+  if (toBoolean(answer)) return dedicatedInternet(values);
   values.conection = 'default';
 };
 
@@ -96,7 +100,7 @@ const dedicatedInternet = async (values) => {
 const getAPs = async (values) => {
   let params = promptParams('wlan', 'boolean');
   const answer = await userInput('Desea usar el AP del mismo router?', params);
-  if (answer === 'y') await routerAP(values);
+  if (toBoolean(answer)) await routerAP(values);
   params = promptParams('cantidad', 'integer');
   const n = await userInput('Cuantos dispositivos de red desea conectar al router? (AP, switch, controladores, etc)', params);
   values.numOfAps = parseInt(n, 10);
@@ -125,7 +129,7 @@ function getAP_IP(i) {
 }
 
 
-const createPlace = async(values) => {
+const createPlace = async (values) => {
   const data = {};
   data.place = {};
   data.place.name = values.name;
@@ -144,6 +148,12 @@ const createPlace = async(values) => {
 //   console.log('    user:', ans);
 //   return ans;
 // };
+
+function toBoolean(input) {
+  const trueValues = ['s', 'S', 'si', 'SI', 'y', 'Y', 'YES', 'yes'];
+  console.log(input, trueValues.indexOf(input) > -1);
+  return trueValues.indexOf(input) > -1;
+}
 
 const userInput = (question, params) => {
   return new Promise((resolve, reject) => {

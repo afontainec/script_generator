@@ -7,7 +7,7 @@ const prompt_attributes = [
         // The fist input text is assigned to username variable.
     name: 'username',
         // The username must match below regular expression.
-    validator: /^[a-zA-Z]\.[0-9]+$/,
+    validator: /^\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b$/,
         // If username is not valid then prompt below message.
     warning: 'Username is not valid, it can only contains letters, spaces, or dashes',
   },
