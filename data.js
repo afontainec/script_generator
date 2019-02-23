@@ -12,8 +12,6 @@ exports.get = async () => {
   await vpn(values);
   await getInternetConexion(values);
   await getAPs(values);
-  console.log('-------------');
-  console.log(values);
   return values;
 };
 
@@ -27,13 +25,26 @@ function promptParams(name, type, validator, warning) {
     p.hidden = true;
     p.replace = '*';
     break;
+  case 'integer':
+    p.validator = /^[0-9]+$/;
+    p.warning = 'Input must be a number';
+    break;
+  case 'boolean':
+      // TODO: que sea si o no
+    break;
+  case 'IP':
+        // TODO: que sea si o no
+    break;
+  case 'macaddress':
+      // TODO: que sea si o no
+    break;
   default:
   }
   return p;
 }
 
 const getName = async(values) => {
-  const params = promptParams('nombre', 'string', /^[a-zA-Z\s-]+$/, 'Invalid data, it can only contains letters, spaces, or dashes');
+  const params = promptParams('nombre', 'string', /^[a-zA-Z0-9\s]+$/, 'Data invalida. Solo puede contener letras, números y espacios');
   const answer = await userInput('Nombre de la red:', params);
   values.name = answer;
   const search = new RegExp(' ', 'g');
@@ -41,11 +52,11 @@ const getName = async(values) => {
 };
 
 const getID = async(values) => {
-  let params = promptParams('registrado?');
+  let params = promptParams('registrado?', 'boolean');
   const answer = await userInput('Red ya esta registrada en www.accionet.net? ingrese y si esta cualquier otra tecla si esque no', params);
   let id;
   if (answer === 'y') {
-    params = promptParams('ID?');
+    params = promptParams('ID?', 'integer');
     id = await userInput('Ingrese ID de la red en www.accionet.net', params);
   } else {
     id = await createPlace(values);
@@ -54,36 +65,36 @@ const getID = async(values) => {
 };
 
 const vpn = async (values) => {
-  let params = promptParams('vpn');
+  let params = promptParams('vpn', 'boolean');
   promptParams.name = 'vpn?';
   const answer = await userInput('Configurar VPN para esta red? ingrese y si esta cualquier otra tecla si esque no', params);
   if (answer !== 'y') return;
-  params = promptParams('usuario');
+  params = promptParams('usuario', 'string', /^[a-zA-Z0-9]+$/, 'Debe ser alfanumérico');
   values['VPN-USER'] = await userInput('  Ingrese nombre de usuario:', params);
-  params = promptParams('usuario', 'password');
+  params = promptParams('passphrase', 'password');
   values['VPN-PASSPHRASE'] = await userInput('  Ingrese passphrase:', params);
   params = promptParams('contrasena', 'password');
   values['VPN-PASSWORD'] = await userInput('  Ingrese contrasena:', params);
 };
 
 const getInternetConexion = async (values) => {
-  const params = promptParams('conexion');
+  const params = promptParams('conexion', 'boolean');
   const answer = await userInput('La conexión a internet se dará por Enlace dedicado?  ingrese y si esta cualquier otra tecla si esque no', params);
   if (answer === 'y') return dedicatedInternet(values);
 };
 
 const dedicatedInternet = async (values) => {
-  let params = promptParams('IP');
+  let params = promptParams('IP', 'IP');
   values['PUBLIC-IP'] = await userInput('  Ingrese IP pública:', params);
-  params = promptParams('gateway');
+  params = promptParams('gateway', 'IP');
   values['ISP-GATEWAY'] = await userInput('  Ingrese Puerta de Enlace de la IP pública:', params);
 };
 
 const getAPs = async (values) => {
-  let params = promptParams('wlan');
+  let params = promptParams('wlan', 'boolean');
   const answer = await userInput('Desea usar el AP del mismo router?', params);
   if (answer === 'y') await routerAP(values);
-  params = promptParams('cantidad');
+  params = promptParams('cantidad', 'integer');
   const n = await userInput('Cuantos dispositivos de red desea conectar al router? (AP, switch, controladores, etc)', params);
   values.numOfAps = parseInt(n, 10);
   for (let i = 0; i < values.numOfAps; i++) {
@@ -92,7 +103,7 @@ const getAPs = async (values) => {
 };
 
 const routerAP = async (values) => {
-  const params = promptParams('SSID');
+  const params = promptParams('SSID', 'string', /^[a-zA-Z0-9\s]+$/, 'Data invalida. Solo puede contener letras, números y espacios');
   values.SSID = await userInput('  Ingrese Nombre de la señal de wifi(SSID):', params);
   values.useRouterAP = true;
 };
@@ -101,7 +112,7 @@ const getAP = async (values, i) => {
   i++;
   const macKey = `MAC-AP${i}`;
   const ipKey = `IP-AP${i}`;
-  const params = promptParams('mac-address');
+  const params = promptParams('mac-address', 'macaddress');
   values[macKey] = await userInput(`  Ingrese dirección mac del dispotivo num ${i}:`, params);
   values[ipKey] = getAP_IP(i);
 };

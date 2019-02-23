@@ -7,27 +7,9 @@ const prompt_attributes = [
         // The fist input text is assigned to username variable.
     name: 'username',
         // The username must match below regular expression.
-    validator: /^[a-zA-Z\s-]+$/,
+    validator: /^[a-zA-Z]\.[0-9]+$/,
         // If username is not valid then prompt below message.
     warning: 'Username is not valid, it can only contains letters, spaces, or dashes',
-  },
-  {
-        // The second input text is assigned to password variable.
-    name: 'password',
-        // Do not show password when user input.
-    hidden: true,
-    replace: '*',
-  },
-  {
-        // The third input text is assigned to email variable.
-    name: 'email',
-        // Display email address when user input.
-    hidden: false,
-  }, {
-          // The third input text is assigned to email variable.
-    name: 'number',
-          // Display email address when user input.
-    type: 'number',
   },
 ];
 
