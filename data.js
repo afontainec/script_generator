@@ -69,6 +69,7 @@ const vpn = async (values) => {
   promptParams.name = 'vpn?';
   const answer = await userInput('Configurar VPN para esta red? ingrese y si esta cualquier otra tecla si esque no', params);
   if (answer !== 'y') return;
+  values.includeVPN = true;
   params = promptParams('usuario', 'string', /^[a-zA-Z0-9]+$/, 'Debe ser alfanumérico');
   values['VPN-USER'] = await userInput('  Ingrese nombre de usuario:', params);
   params = promptParams('passphrase', 'password');
