@@ -32,4 +32,4 @@ add action=masquerade chain=srcnat comment="masquerade hotspot network" \
 /ip hotspot walled-garden
 add dst-host=*herokuapp*
 add dst-host=code.jquery.com
-add dst-host=s3.amazonaws.com
+add dst-host=*amazonaws*
