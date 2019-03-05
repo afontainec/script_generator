@@ -7,6 +7,7 @@ const AP_NUM = 100;
 prompt.start();
 exports.get = async () => {
   const values = {};
+  values.location = '-33.4876785,-70.78158';
   await getName(values);
   await getID(values);
   await vpn(values);
@@ -134,9 +135,10 @@ const createPlace = async (values) => {
   data.place = {};
   data.place.name = values.name;
   data.place.location = values.location;
-  // const response = await requestify.post('http://localhost:3000/api/v1/places/new', data);
-  // return response.id;
-  return 1;
+  data.place.is_active = true;
+  const response = await requestify.post('http://localhost:3000/api/v1/places/new', data);
+  return response.id;
+  // return 1;
 };
 
 // const responses = ['testing hola', 'n', 'y', 'passphrase', 'vpnuser', 'vpnpassword', 'n', 'y', 'FREE WIFI', 2, 'AA:AA:AA:AA:AA:AA', 'AA:AA:AA:AA:AA:AB'];
